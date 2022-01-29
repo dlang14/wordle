@@ -3,15 +3,6 @@ import words
 #word_list = ['which', 'their', 'would', 'there', 'could', 'other', 'about', 'great', 'these', 'after', 'first', 'never', 'where', 'those', 'shall', 'being', 'might', 'every', 'think', 'under', 'found', 'still', 'while', 'again', 'place', 'young', 'years', 'three', 'right', 'house', 'whole', 'world', 'thing', 'night', 'going', 'heard', 'heart', 'among', 'asked', 'small', 'woman', 'whose', 'quite', 'words', 'given', 'taken', 'hands', 'until', 'since', 'light']
 #answer = random.choice(word_list) # choose a random word from the list
 
-answer = words.get_random_word()
-y = 250 # y location
-print(answer)
-keyboard = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-keyboard_pos = []
-guess_list = []
-turtle.speed(speed=0)
-turtle.Screen().bgcolor("grey")
-
 def display_keyboard():
     y = -300
     x = -300
@@ -89,22 +80,35 @@ def write_letter(x,y,letter,font_size):
     #if letter == "w": x=x-50
     turtle.write(letter.upper(),align="center",font=("Verdana", font_size, "normal"))
 
-display_keyboard()
-for i in range(6): #Where the program starts
-    guess_prompt = "What is guess "+str(i+1)+"?" #Makes a nice string for the prompt
-    my_input = input_guess(guess_prompt) #calls input_guess function
-    check_guess(my_input,answer,y) #checks the guess
-    update_keyboard(guess_list)
+def initialize_turtle():
+    turtle.speed(speed=0)
+    turtle.Screen().bgcolor("grey")
+
+if __name__ == "__main__"
+    initialize_turtle()
+    answer = words.get_random_word()
+    y = 250 # y location
+    print(answer)
+    keyboard = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    keyboard_pos = []
     guess_list = []
+
     display_keyboard()
-    y -= 75 #y down by 75
-    if my_input == answer:
+    for i in range(6): #Where the program starts
+        guess_prompt = "What is guess "+str(i+1)+"?" #Makes a nice string for the prompt
+        my_input = input_guess(guess_prompt) #calls input_guess function
+        check_guess(my_input,answer,y) #checks the guess
+        update_keyboard(guess_list)
+        guess_list = []
+        display_keyboard()
+        y -= 75 #y down by 75
+        if my_input == answer:
+            turtle.penup()
+            turtle.goto(-350,-250) #Always draws the congratulations in the same place
+            turtle.write("Well Done!",font=("Verdana", 42, "normal"))
+            break
+    else: #Only runs if the for loop executes completely. i.e. You've used all your guesses.
         turtle.penup()
-        turtle.goto(-350,-250) #Always draws the congratulations in the same place
-        turtle.write("Well Done!",font=("Verdana", 42, "normal"))
-        break
-else: #Only runs if the for loop executes completely. i.e. You've used all your guesses.
-    turtle.penup()
-    turtle.goto(-300,-200)
-    turtle.write(answer,font=("Verdana", 42, "normal"))
-turtle.done() #Needs if you are using Pycharm and some other Python editors.
+        turtle.goto(-300,-200)
+        turtle.write(answer,font=("Verdana", 42, "normal"))
+    turtle.done() #Needs if you are using Pycharm and some other Python editors.
