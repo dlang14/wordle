@@ -1,12 +1,16 @@
 import turtle, random
-word_list = ['which', 'their', 'would', 'there', 'could', 'other', 'about', 'great', 'these', 'after', 'first', 'never', 'where', 'those', 'shall', 'being', 'might', 'every', 'think', 'under', 'found', 'still', 'while', 'again', 'place', 'young', 'years', 'three', 'right', 'house', 'whole', 'world', 'thing', 'night', 'going', 'heard', 'heart', 'among', 'asked', 'small', 'woman', 'whose', 'quite', 'words', 'given', 'taken', 'hands', 'until', 'since', 'light']
-answer = random.choice(word_list) # choose a random word from the list
+import words
+#word_list = ['which', 'their', 'would', 'there', 'could', 'other', 'about', 'great', 'these', 'after', 'first', 'never', 'where', 'those', 'shall', 'being', 'might', 'every', 'think', 'under', 'found', 'still', 'while', 'again', 'place', 'young', 'years', 'three', 'right', 'house', 'whole', 'world', 'thing', 'night', 'going', 'heard', 'heart', 'among', 'asked', 'small', 'woman', 'whose', 'quite', 'words', 'given', 'taken', 'hands', 'until', 'since', 'light']
+#answer = random.choice(word_list) # choose a random word from the list
+
+answer = words.get_random_word()
 y = 250 # y location
 print(answer)
 keyboard = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 keyboard_pos = []
 guess_list = []
 turtle.speed(speed=0)
+turtle.Screen().bgcolor("grey")
 
 def display_keyboard():
     y = -300
@@ -14,11 +18,12 @@ def display_keyboard():
     for i in range(0,len(keyboard)):
         turtle.penup()
         turtle.goto(x,y)
+        #turtle.color("grey")
         turtle.write(keyboard[i].upper(),font=("Verdana", 20, "normal"))
         tup = (keyboard[i],x,y)
         keyboard_pos.append(tup)
         x = x + 25
-        
+
 def draw_square(x,y,col,key): # takes in x,y coordinates and a color
     turtle.penup()
     turtle.goto(x,y)
@@ -35,7 +40,7 @@ def draw_square(x,y,col,key): # takes in x,y coordinates and a color
             turtle.forward(25)
             turtle.right(90)
         turtle.end_fill()
-        
+
 def input_guess(prompt):
     my_input = turtle.textinput("5 letter word", prompt)
     if my_input == None: return "     " # if you press cancel or submit with nothing
@@ -45,30 +50,30 @@ def input_guess(prompt):
 def check_guess(my_input,answer,y):
     count = 0 #Need a count, because of for loop used
     x = -250 # x location
-    
+
     for i in my_input:
-        if i == answer[count]: 
+        if i == answer[count]:
             draw_square(x,y,"green",False) #exact character match draws a green square
             write_letter(x+10,y-55,i,50)
             tup = (i, 'green')
             guess_list.append(tup)
-        elif i in answer: 
+        elif i in answer:
             draw_square(x,y,"yellow",False) #else if character anywhere in word draws yellow
             write_letter(x+10,y-55,i,50)
             tup = (i, 'yellow')
             guess_list.append(tup)
-        else: 
+        else:
             draw_square(x,y,"red",False) # otherwise draws red
             write_letter(x+10,y-55,i,50)
             tup = (i, 'red')
             guess_list.append(tup)
-            
+
         count+=1 # add 1 to the count
         x += 75 # move x coordinate along by 75
     turtle.penup() #Moves the turtle penup
     turtle.goto(x,y-25) #Moves it slightly down for the word
     turtle.write(my_input,font=("Verdana", 15, "normal")) # font verdana, size 15, normal style
-    
+
 def update_keyboard(guess_list):
     for i in range(0,len(guess_list)):
         count = 0
@@ -80,8 +85,9 @@ def update_keyboard(guess_list):
 
 def write_letter(x,y,letter,font_size):
     turtle.penup() #Moves the turtle penup
-    turtle.goto(x,y) #Moves it slightly down for the word
-    turtle.write(letter.upper(),font=("Verdana", font_size, "normal"))
+    turtle.goto(x+15,y) #Moves it slightly down for the word
+    #if letter == "w": x=x-50
+    turtle.write(letter.upper(),align="center",font=("Verdana", font_size, "normal"))
 
 display_keyboard()
 for i in range(6): #Where the program starts
