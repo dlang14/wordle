@@ -1,19 +1,17 @@
 import turtle, random
 import words
-#word_list = ['which', 'their', 'would', 'there', 'could', 'other', 'about', 'great', 'these', 'after', 'first', 'never', 'where', 'those', 'shall', 'being', 'might', 'every', 'think', 'under', 'found', 'still', 'while', 'again', 'place', 'young', 'years', 'three', 'right', 'house', 'whole', 'world', 'thing', 'night', 'going', 'heard', 'heart', 'among', 'asked', 'small', 'woman', 'whose', 'quite', 'words', 'given', 'taken', 'hands', 'until', 'since', 'light']
-#answer = random.choice(word_list) # choose a random word from the list
+import enchant
 
 def display_keyboard():
     y = -300
-    x = -300
+    x = -375
     for i in range(0,len(keyboard)):
         turtle.penup()
         turtle.goto(x,y)
-        #turtle.color("grey")
-        turtle.write(keyboard[i].upper(),font=("Verdana", 20, "normal"))
+        turtle.write(keyboard[i].upper(),font=("Verdana", 30, "normal"), align='center')
         tup = (keyboard[i],x,y)
         keyboard_pos.append(tup)
-        x = x + 25
+        x = x + 30
 
 def draw_square(x,y,col,key): # takes in x,y coordinates and a color
     turtle.penup()
@@ -28,15 +26,25 @@ def draw_square(x,y,col,key): # takes in x,y coordinates and a color
         turtle.end_fill() # ending the filling of the color
     else:
         for i in range(4):     # drawing the square
-            turtle.forward(25)
+            turtle.forward(30)
             turtle.right(90)
         turtle.end_fill()
 
 def input_guess(prompt):
     my_input = turtle.textinput("5 letter word", prompt)
-    if my_input == None: return "     " # if you press cancel or submit with nothing
-    elif len(my_input) != 5: return my_input[0:5] #sends the first five characters
-    else: return my_input.lower() #sends lower case of the word. Means case does not make a difference.
+    if check_valid_word(my_input):
+        return my_input.lower()
+    else:
+        while check_valid_word(my_input) == False:
+            my_input = turtle.textinput("5 letter word", prompt)
+            if check_valid_word(my_input):
+                return my_input.lower()
+
+def check_valid_word(input):
+    if ((len(input) == 5) & (d.check(input) == True)):
+        return True
+    else:
+        return False
 
 def check_guess(my_input,answer,y):
     count = 0 #Need a count, because of for loop used
@@ -71,21 +79,21 @@ def update_keyboard(guess_list):
         for j in range(0,len(keyboard_pos)):
             if guess_list[i][0] == keyboard_pos[j][0]:
                 if count == 0:
-                    draw_square(keyboard_pos[j][1] - 5, keyboard_pos[j][2] + 25, guess_list[i][1], True)
+                    draw_square(keyboard_pos[j][1] - 15, keyboard_pos[j][2] + 32, guess_list[i][1], True)
                     count = count + 1
 
 def write_letter(x,y,letter,font_size):
     turtle.penup() #Moves the turtle penup
     turtle.goto(x+15,y) #Moves it slightly down for the word
-    #if letter == "w": x=x-50
     turtle.write(letter.upper(),align="center",font=("Verdana", font_size, "normal"))
 
 def initialize_turtle():
     turtle.speed(speed=0)
     turtle.Screen().bgcolor("grey")
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     initialize_turtle()
+    d = enchant.Dict("en_US")
     answer = words.get_random_word()
     y = 250 # y location
     print(answer)
@@ -105,10 +113,10 @@ if __name__ == "__main__"
         if my_input == answer:
             turtle.penup()
             turtle.goto(-350,-250) #Always draws the congratulations in the same place
-            turtle.write("Well Done!",font=("Verdana", 42, "normal"))
+            turtle.write("GGs!",font=("Verdana", 42, "normal"))
             break
     else: #Only runs if the for loop executes completely. i.e. You've used all your guesses.
         turtle.penup()
-        turtle.goto(-300,-200)
-        turtle.write(answer,font=("Verdana", 42, "normal"))
+        turtle.goto(-350,-250)
+        turtle.write(answer + " dumbass",font=("Verdana", 42, "normal"))
     turtle.done() #Needs if you are using Pycharm and some other Python editors.
