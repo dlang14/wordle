@@ -91,6 +91,7 @@ def write_letter(x,y,letter,font_size):
     turtle.write(letter.upper(),align="center",font=("Verdana", font_size, "normal"))
 
 def initialize_turtle():
+    write_letter(-50,275,"wordle 2.0", 75)
     turtle.speed(speed=0)
     turtle.Screen().bgcolor("grey")
 
@@ -122,4 +123,4 @@ if __name__ == "__main__":
         turtle.penup()
         turtle.goto(-350,-250)
         turtle.write(answer + " dumbass",font=("Verdana", 42, "normal"))
-    turtle.done() 
+    turtle.done()
